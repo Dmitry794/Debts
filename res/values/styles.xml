@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="textStyle">
+        <item name="android:textColor">#ff005b9f</item>
+    </style>
+
+    <style name="textStyleLarge">
+        <item name="android:textColor">#ff005b9f</item>
+        <item name="android:textSize">25dp</item>
+    </style>
+
+
+    <color name="backColor">#ffe9e9e9</color>
+    <color name="backColorMain">#ff939393</color>
+    <color name="textColor">#ff005b9f</color>
+
+</resources>

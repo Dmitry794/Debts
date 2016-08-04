@@ -11,11 +11,13 @@
             android:title="Очистить список"/>
     <item
             android:id="@+id/mUpdate"
-            android:title="Обновить"/>
+            android:title="Обновить"
+            android:enabled="false"/>
     <item
             android:id="@+id/mSendImg"
             android:title="Отправить чек"/>
     <item
             android:id="@+id/mSetting"
-            android:title="Настройки"/>
+            android:title="Настройки"
+            android:enabled="false"/>
 </menu>

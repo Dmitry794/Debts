@@ -13,7 +13,7 @@ import android.widget.RadioButton;
 
 public class editActivity extends Activity implements OnClickListener {
     EditText txedName,txedCount,txedCoast;
-    RadioButton rbedKsu,rbedVi;
+
     Button btEdit,btCanseled;
 
     @Override
@@ -29,6 +29,7 @@ public class editActivity extends Activity implements OnClickListener {
         btEdit.setOnClickListener(this);
         btCanseled = (Button) findViewById(R.id.bt_cancel_ed);
         btCanseled.setOnClickListener(this);
+
 
         Intent intent = getIntent();
 
@@ -47,14 +48,19 @@ public class editActivity extends Activity implements OnClickListener {
                 finish();
                 break;
             case R.id.bt_edit:
-                Intent intent = new Intent();
-                intent.putExtra("Name", txedName.getText().toString());
-                intent.putExtra("Count", Double.valueOf(txedCount.getText().toString()));
-                intent.putExtra("Coast",  Double.valueOf(txedCoast.getText().toString()));
-                intent.putExtra("Cash", Double.valueOf(txedCount.getText().toString()) * Double.valueOf(txedCoast.getText().toString()));
-                setResult(RESULT_OK, intent);
-                finish();
+                try {
+                    Intent intent = new Intent();
+                    intent.putExtra("Name", txedName.getText().toString());
+                    intent.putExtra("Count", Double.valueOf(txedCount.getText().toString()));
+                    intent.putExtra("Coast", Double.valueOf(txedCoast.getText().toString()));
+                    intent.putExtra("Cash", Double.valueOf(txedCount.getText().toString()) * Double.valueOf(txedCoast.getText().toString()));
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
                 break;
+
         }
     }
 }

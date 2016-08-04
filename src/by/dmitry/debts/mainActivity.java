@@ -6,34 +6,31 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.os.Environment;
 import android.util.Log;
 import android.view.*;
-import android.view.View.*;
+import android.view.View.OnClickListener;
 import android.widget.*;
 
-import java.io.*;
-import java.text.DecimalFormat;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import android.graphics.*;
-
-import static android.content.Intent.ACTION_VIEW;
 
 public class mainActivity extends Activity implements OnClickListener {
 
-    Button btn_add;
+    Button btAdd,btOption;
     ListView list;
-    TextView text, txResult;
+    TextView txResult;
     private static final String TAG = "myLogs";
 
     int selectedItemList;
@@ -48,11 +45,12 @@ public class mainActivity extends Activity implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        btn_add = (Button) findViewById(R.id.bt_add);
-        btn_add.setOnClickListener(this);
-        text = (TextView) findViewById(R.id.text);
         txResult = (TextView) findViewById(R.id.txResult);
-        registerForContextMenu(text);
+
+        btAdd = (Button) findViewById(R.id.bt_add);
+        btAdd.setOnClickListener(this);
+        btOption = (Button) findViewById(R.id.bt_option);
+        btOption.setOnClickListener(this);
 
         list = (ListView) findViewById(R.id.list);
         dataList = new ArrayList<>();
@@ -86,7 +84,7 @@ public class mainActivity extends Activity implements OnClickListener {
 
             menu.add(0, 1, 0, "Редактировать");
             menu.add(0, 2, 0, "Удалить");
-            text.setText(String.valueOf(selectedItemList));
+
         }
     }
 
@@ -109,10 +107,10 @@ public class mainActivity extends Activity implements OnClickListener {
 
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-                if (db.delete(DBHelper.TABLE_NAME, "hash=" + m_del.get("Hash").toString(), null)>0){
-                dataList.remove(selectedItemList);
-                adapter.notifyDataSetChanged();
-                allCashUpdate();
+                if (db.delete(DBHelper.TABLE_NAME, "hash=" + m_del.get("Hash").toString(), null) > 0) {
+                    dataList.remove(selectedItemList);
+                    adapter.notifyDataSetChanged();
+                    allCashUpdate();
                 }
                 db.close();
                 break;
@@ -144,7 +142,7 @@ public class mainActivity extends Activity implements OnClickListener {
         sb.append("\r\n itemId: " + String.valueOf(item.getItemId()));
         sb.append("\r\n order: " + String.valueOf(item.getOrder()));
         sb.append("\r\n title: " + item.getTitle());
-        text.setText(sb.toString());
+
         switch (item.getItemId()) {
             case R.id.mAdd:
                 addItem();
@@ -156,7 +154,7 @@ public class mainActivity extends Activity implements OnClickListener {
                 db.close();
                 break;
             case R.id.mUpdate:
-                dbHelper.deletDB(this);
+               // dbHelper.deletDB(this);
                 break;
             case R.id.mSendImg:
                 sendByViber(list);
@@ -171,20 +169,11 @@ public class mainActivity extends Activity implements OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_add:
-                db = dbHelper.getWritableDatabase();
-                ContentValues cv = new ContentValues();
-                cv.put("hash", 12345678);
-                cv.put("name", "Творожок");
-                cv.put("date", "04.08.2016");
-                cv.put("count", 4);
-                cv.put("coast", 0.69);
-                cv.put("cash", 2.76);
-                long rowID = db.insert("debts", null, cv);
-                db.close();
-                text.setText(String.valueOf(rowID));
+                addItem();
                 break;
-
-
+            case R.id.bt_option:
+                openOptionsMenu();
+                break;
         }
     }
 
@@ -196,20 +185,22 @@ public class mainActivity extends Activity implements OnClickListener {
                     case RESULT_OK:
 
                         Map<String, Object> m = new HashMap<String, Object>();
-                        m.put("Hash", data.getIntExtra("Hash",0));
+                        m.put("Hash", data.getIntExtra("Hash", 0));
                         m.put("Name", data.getStringExtra("Name"));
                         m.put("Date", data.getStringExtra("Date"));
-                        m.put("Count", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Count", 0)));
+                        m.put("Count", String.format(Locale.ENGLISH, "%.1f", data.getDoubleExtra("Count", 0)));
+
                         m.put("Coast", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Coast", 0)));
                         m.put("Cash", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Cash", 0)));
                         dataList.add(m);
 
                         db = dbHelper.getWritableDatabase();
                         ContentValues cv = new ContentValues();
-                        cv.put("hash", data.getIntExtra("Hash",0));
+                        cv.put("hash", data.getIntExtra("Hash", 0));
                         cv.put("name", data.getStringExtra("Name"));
                         cv.put("date", data.getStringExtra("Date"));
-                        cv.put("count", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Count", 0)));
+                        cv.put("count", String.format(Locale.ENGLISH, "%.1f", data.getDoubleExtra("Count", 0)));
+
                         cv.put("coast", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Coast", 0)));
                         cv.put("cash", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Cash", 0)));
                         db.insert("debts", null, cv);
@@ -218,7 +209,7 @@ public class mainActivity extends Activity implements OnClickListener {
                         break;
 
                     case RESULT_CANCELED:
-                        text.setText("RESULT_CANCELED");
+
                         Log.d(TAG, "canceled");
                         break;
                 }
@@ -229,32 +220,24 @@ public class mainActivity extends Activity implements OnClickListener {
 
                         Map<String, Object> m = dataList.get(selectedItemList);
                         m.put("Name", data.getStringExtra("Name"));
-                        m.put("Count", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Count", 0)));
+                        m.put("Count", String.format(Locale.ENGLISH, "%.1f", data.getDoubleExtra("Count", 0)));
                         m.put("Coast", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Coast", 0)));
                         m.put("Cash", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Cash", 0)));
 
                         db = dbHelper.getWritableDatabase();
                         ContentValues cv = new ContentValues();
                         cv.put("name", data.getStringExtra("Name"));
-                        cv.put("count", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Count", 0)));
+                        cv.put("count", String.format(Locale.ENGLISH, "%.1f", data.getDoubleExtra("Count", 0)));
                         cv.put("coast", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Coast", 0)));
                         cv.put("cash", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Cash", 0)));
 
-                        db.update(DBHelper.TABLE_NAME, cv, "hash="+m.get("Hash"), null);
-
-
-
-
-
-
-
-
+                        db.update(DBHelper.TABLE_NAME, cv, "hash=" + m.get("Hash"), null);
                         adapter.notifyDataSetChanged();
                         allCashUpdate();
                         break;
 
                     case RESULT_CANCELED:
-                        text.setText("RESULT_CANCELED");
+
                         Log.d(TAG, "canceled");
                         break;
                 }
@@ -335,9 +318,10 @@ public class mainActivity extends Activity implements OnClickListener {
 
         @Override
         protected Void doInBackground(Void... params) {
-            switch (action)
-            {
-                case DB_READ: readDB();break;
+            switch (action) {
+                case DB_READ:
+                    readDB();
+                    break;
             }
 
             return null;

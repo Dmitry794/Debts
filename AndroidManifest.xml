@@ -16,10 +16,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".addActivity"
-                  android:theme="@android:style/Theme.Dialog"
-                ></activity>
+                  android:theme="@android:style/Theme.Dialog"/>
+
         <activity android:name=".editActivity"
-                  android:theme="@android:style/Theme.Dialog"></activity>
+                  android:theme="@android:style/Theme.Dialog"/>
 
     </application>
 </manifest> 
