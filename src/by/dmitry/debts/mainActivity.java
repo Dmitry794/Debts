@@ -57,8 +57,8 @@ public class mainActivity extends Activity implements OnClickListener {
         list = (ListView) findViewById(R.id.list);
         dataList = new ArrayList<>();
 
-        String[] from = {"Date", "Name", "Coast", "Count", "Cash"};
-        int[] to = {R.id.itDate, R.id.itName, R.id.itCoast, R.id.itCount, R.id.itCash};
+        String[] from = {"Hash", "Date", "Name", "Coast", "Count", "Cash"};
+        int[] to = {R.id.itHashCode, R.id.itDate, R.id.itName, R.id.itCoast, R.id.itCount, R.id.itCash};
         adapter = new SimpleAdapter(this, dataList, R.layout.item, from, to);
 
         list.setAdapter(adapter);
@@ -105,9 +105,16 @@ public class mainActivity extends Activity implements OnClickListener {
                 break;
 
             case 2: //Delete
+                Map<String, Object> m_del = dataList.get(selectedItemList);
+
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+                if (db.delete(DBHelper.TABLE_NAME, "hash=" + m_del.get("Hash").toString(), null)>0){
                 dataList.remove(selectedItemList);
                 adapter.notifyDataSetChanged();
                 allCashUpdate();
+                }
+                db.close();
                 break;
 
         }
@@ -166,7 +173,7 @@ public class mainActivity extends Activity implements OnClickListener {
             case R.id.bt_add:
                 db = dbHelper.getWritableDatabase();
                 ContentValues cv = new ContentValues();
-
+                cv.put("hash", 12345678);
                 cv.put("name", "Творожок");
                 cv.put("date", "04.08.2016");
                 cv.put("count", 4);
@@ -184,11 +191,12 @@ public class mainActivity extends Activity implements OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case 1:
+            case 1: //Add
                 switch (resultCode) {
                     case RESULT_OK:
 
                         Map<String, Object> m = new HashMap<String, Object>();
+                        m.put("Hash", data.getIntExtra("Hash",0));
                         m.put("Name", data.getStringExtra("Name"));
                         m.put("Date", data.getStringExtra("Date"));
                         m.put("Count", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Count", 0)));
@@ -198,6 +206,7 @@ public class mainActivity extends Activity implements OnClickListener {
 
                         db = dbHelper.getWritableDatabase();
                         ContentValues cv = new ContentValues();
+                        cv.put("hash", data.getIntExtra("Hash",0));
                         cv.put("name", data.getStringExtra("Name"));
                         cv.put("date", data.getStringExtra("Date"));
                         cv.put("count", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Count", 0)));
@@ -214,7 +223,7 @@ public class mainActivity extends Activity implements OnClickListener {
                         break;
                 }
                 break;
-            case 2:
+            case 2: //Edit
                 switch (resultCode) {
                     case RESULT_OK:
 
@@ -223,6 +232,23 @@ public class mainActivity extends Activity implements OnClickListener {
                         m.put("Count", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Count", 0)));
                         m.put("Coast", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Coast", 0)));
                         m.put("Cash", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Cash", 0)));
+
+                        db = dbHelper.getWritableDatabase();
+                        ContentValues cv = new ContentValues();
+                        cv.put("name", data.getStringExtra("Name"));
+                        cv.put("count", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Count", 0)));
+                        cv.put("coast", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Coast", 0)));
+                        cv.put("cash", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Cash", 0)));
+
+                        db.update(DBHelper.TABLE_NAME, cv, "hash="+m.get("Hash"), null);
+
+
+
+
+
+
+
+
                         adapter.notifyDataSetChanged();
                         allCashUpdate();
                         break;
@@ -329,7 +355,7 @@ public class mainActivity extends Activity implements OnClickListener {
             Cursor c = db.query(dbHelper.getTableName(), null, null, null, null, null, null);
 
             if (c.moveToFirst()) {
-
+                int hashColIndex = c.getColumnIndex("hash");
                 int nameColIndex = c.getColumnIndex("name");
                 int dateColIndex = c.getColumnIndex("date");
                 int countColIndex = c.getColumnIndex("count");
@@ -340,6 +366,7 @@ public class mainActivity extends Activity implements OnClickListener {
                 do {
                     // получаем значения по номерам столбцов и пишем все в лог
                     Map<String, Object> m = new HashMap<String, Object>();
+                    m.put("Hash", String.valueOf(c.getInt(hashColIndex)));
                     m.put("Name", c.getString(nameColIndex));
                     m.put("Date", c.getString(dateColIndex));
                     m.put("Count", String.format(Locale.ENGLISH, "%.2f", c.getDouble(countColIndex)));

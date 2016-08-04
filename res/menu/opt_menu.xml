@@ -13,8 +13,8 @@
             android:id="@+id/mUpdate"
             android:title="Обновить"/>
     <item
-            android:id="@+id/mBill"
-            android:title="Сформировать чек"/>
+            android:id="@+id/mSendImg"
+            android:title="Отправить чек"/>
     <item
             android:id="@+id/mSetting"
             android:title="Настройки"/>

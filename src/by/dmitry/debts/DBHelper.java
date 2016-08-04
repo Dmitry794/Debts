@@ -23,6 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // создаем таблицу с полями
         sqlDB.execSQL("create table "+TABLE_NAME+" ("
                 + "id integer primary key autoincrement,"
+                + "hash integer,"
                 + "name text,"
                 + "date text,"
                 + "count double,"

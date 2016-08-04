@@ -16,7 +16,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="03.08.2016"
+                android:text="03.08.2016   15:46"
                 android:id="@+id/itDate" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
                 android:layout_marginLeft="10dp" android:layout_marginTop="10dp"/>
         <TextView
@@ -58,6 +58,15 @@
                 android:id="@+id/itCash"
                 android:layout_alignBottom="@+id/itName" android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp" android:textStyle="bold"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="1352689"
+                    android:id="@+id/itHashCode"
+                    android:layout_alignParentTop="true" android:layout_alignParentRight="true"
+                    android:layout_marginTop="35dp" android:layout_marginRight="120dp" android:textColor="#ffffcd0a"
+                    android:visibility="invisible"/>
 
 
     </RelativeLayout>

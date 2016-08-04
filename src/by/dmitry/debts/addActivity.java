@@ -51,7 +51,7 @@ public class addActivity extends Activity implements View.OnClickListener{
                 SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy   hh:mm:ss");
                 String date = df.format(new Date(System.currentTimeMillis()));
                 intent.putExtra("Date", date);
-
+                intent.putExtra("Hash", intent.hashCode());
                 setResult(RESULT_OK, intent);
                 finish();
                 break;
