@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent" android:padding="5dp"
+
+              android:background="@android:color/transparent">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:layout_gravity="center_horizontal"
+            android:background="#ffaebc4a" android:padding="15dp">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Изменить покупку"
+                android:id="@+id/textView_ed" android:layout_gravity="left|center_horizontal"
+                android:textColor="@android:color/black" android:paddingBottom="10dp" android:paddingLeft="15dp"
+                android:paddingRight="15dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Наименование:"
+                android:id="@+id/textView2_ed" android:textColor="@android:color/black"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txedName"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Количество:"
+                android:id="@+id/textView3_ed" android:textColor="@android:color/black"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="10"
+                android:id="@+id/txedCount"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Цена"
+                android:id="@+id/textView4_ed" android:textColor="@android:color/black"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="10"
+                android:id="@+id/txedCoast"/>
+        <RadioGroup
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
+            <RadioButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ксюхе"
+                    android:id="@+id/rbedKsu" android:layout_gravity="center_horizontal"
+                    android:textColor="@android:color/black" android:checked="true"/>
+
+            <RadioButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Вике"
+                    android:id="@+id/rbedVi" android:layout_gravity="center_horizontal"
+                    android:textColor="@android:color/black"/>
+        </RadioGroup>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Изменить"
+                    android:id="@+id/bt_edit"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Отмена"
+                    android:id="@+id/bt_cancel_ed" android:layout_weight="1" android:textStyle="bold"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

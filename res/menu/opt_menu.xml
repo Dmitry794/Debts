@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent">
+    <item
+            android:id="@+id/mAdd"
+            android:title="Добавить запись"/>
+    <item
+            android:id="@+id/mClear"
+            android:title="Очистить список"/>
+    <item
+            android:id="@+id/mUpdate"
+            android:title="Обновить"/>
+    <item
+            android:id="@+id/mBill"
+            android:title="Сформировать чек"/>
+    <item
+            android:id="@+id/mSetting"
+            android:title="Настройки"/>
+</menu>

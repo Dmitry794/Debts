@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white" android:paddingLeft="1dp" android:paddingRight="1dp"
+        android:paddingBottom="1dp">
+
+    <RelativeLayout
+
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:background="#ff174360" android:paddingBottom="10dp">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="03.08.2016"
+                android:id="@+id/itDate" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp" android:layout_marginTop="10dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Зефирка"
+                android:id="@+id/itName" android:layout_below="@+id/itDate" android:layout_alignLeft="@+id/itDate"
+                android:layout_marginTop="5dp" android:textStyle="bold"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="2"
+                android:id="@+id/itCount"
+                android:layout_marginRight="10dp" android:layout_alignTop="@+id/itDate"
+                android:layout_alignParentRight="true"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="x"
+                android:id="@+id/itX"
+                android:layout_marginRight="10dp"
+                android:layout_alignTop="@+id/itCount" android:layout_toLeftOf="@+id/itCount"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="1.25"
+                android:id="@+id/itCoast"
+                android:layout_marginRight="10dp" android:layout_alignTop="@+id/itX"
+                android:layout_toLeftOf="@+id/itX"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="2.50"
+                android:id="@+id/itCash"
+                android:layout_alignBottom="@+id/itName" android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp" android:textStyle="bold"/>
+
+
+    </RelativeLayout>
+</LinearLayout>
