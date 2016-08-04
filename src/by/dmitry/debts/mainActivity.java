@@ -1,7 +1,9 @@
 package by.dmitry.debts;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -35,6 +37,7 @@ public class mainActivity extends Activity implements OnClickListener {
 
     ArrayList<Map<String, Object>> dataList;
     SimpleAdapter adapter;
+    DBHelper dbHelper;
 
 
     @Override
@@ -58,6 +61,13 @@ public class mainActivity extends Activity implements OnClickListener {
         registerForContextMenu(list);
 
         allCashUpdate();
+        dbHelper = new DBHelper(this);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
 
     }
@@ -129,6 +139,7 @@ public class mainActivity extends Activity implements OnClickListener {
                 break;
             case R.id.mClear:
                 clearList();
+                dbHelper.deletDB(this);
                 break;
             case R.id.mUpdate:
 
@@ -136,6 +147,7 @@ public class mainActivity extends Activity implements OnClickListener {
             case R.id.mSendImg:
                 sendByViber(list);
                 break;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -145,7 +157,14 @@ public class mainActivity extends Activity implements OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_add:
-                addItem();
+                ContentValues cv = new ContentValues();
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                cv.put("name", "Творожок");
+                cv.put("count", 4);
+                cv.put("coast", 0.69);
+                cv.put("cash", 2.76);
+                long rowID = db.insert("debts", null, cv);
+                text.setText(String.valueOf(rowID));
                 break;
 
 
