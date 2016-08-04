@@ -2,18 +2,27 @@ package by.dmitry.debts;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
+import android.os.Environment;
 import android.util.Log;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
 
+import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import android.graphics.*;
+
+import static android.content.Intent.ACTION_VIEW;
 
 public class mainActivity extends Activity implements OnClickListener {
 
@@ -98,7 +107,7 @@ public class mainActivity extends Activity implements OnClickListener {
         menu.add(0, 3, 3, "Обновить");
         menu.add(0, 4, 4, "Сформировать и отправить чек");*/
         MenuInflater mi = getMenuInflater();
-        mi.inflate(R.menu.opt_menu,menu);
+        mi.inflate(R.menu.opt_menu, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -115,19 +124,17 @@ public class mainActivity extends Activity implements OnClickListener {
         sb.append("\r\n title: " + item.getTitle());
         text.setText(sb.toString());
         switch (item.getItemId()) {
-            case 0:
-                Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT);
-         //       text.setText(item.getTitle());
+            case R.id.mAdd:
+                addItem();
                 break;
-            case 1:
-//                Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT);
-
-            //    text.setText(item.getTitle());
+            case R.id.mClear:
+                clearList();
                 break;
-            case 2:
-                Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT);
-           //     text.setText(item.getTitle());
+            case R.id.mUpdate:
 
+                break;
+            case R.id.mSendImg:
+                sendByViber(list);
                 break;
         }
 
@@ -138,8 +145,7 @@ public class mainActivity extends Activity implements OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_add:
-                Intent intent = new Intent(this, addActivity.class);
-                startActivityForResult(intent, 1);
+                addItem();
                 break;
 
 
@@ -202,4 +208,50 @@ public class mainActivity extends Activity implements OnClickListener {
         }
         txResult.setText(String.format(Locale.ENGLISH, "%.2f", sum));
     }
+
+    void addItem() {
+        Intent intent = new Intent(this, addActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+    void clearList() {
+        dataList.clear();
+        adapter.notifyDataSetChanged();
+        allCashUpdate();
+    }
+
+    void sendByViber(View view) {
+        Bitmap bmp = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.RGB_565);
+        Canvas cnv = new Canvas(bmp);
+        Drawable bgDrawable = view.getBackground();
+        if (bgDrawable != null) {
+            //draw background drawable
+            bgDrawable.draw(cnv);
+        } else {
+            //draw white background
+            cnv.drawColor(Color.WHITE);
+        }
+        view.draw(cnv);
+
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "imgDebt.png");
+        Log.d(TAG, file.toString());
+        try {
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(file);
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            } finally {
+                if (fos != null) fos.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/gif");
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+        intent.setPackage("com.viber.voip");
+        startActivity(intent);
+    }
+
 }
