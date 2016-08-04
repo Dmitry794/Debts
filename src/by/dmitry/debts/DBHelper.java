@@ -24,6 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqlDB.execSQL("create table "+TABLE_NAME+" ("
                 + "id integer primary key autoincrement,"
                 + "name text,"
+                + "date text,"
                 + "count double,"
                 + "coast double,"
                 + "cash double"
@@ -40,5 +41,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public void deletDB(Context context) {
         context.deleteDatabase(DB_NAME);
         Log.d("myLogs", "DB deleted");
+    }
+
+    String getDbName() {
+        return DB_NAME;
+    }
+
+    public static String getTableName() {
+        return TABLE_NAME;
     }
 }

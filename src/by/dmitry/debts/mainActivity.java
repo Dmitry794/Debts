@@ -3,10 +3,12 @@ package by.dmitry.debts;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.os.Environment;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import android.graphics.*;
 
@@ -38,6 +41,7 @@ public class mainActivity extends Activity implements OnClickListener {
     ArrayList<Map<String, Object>> dataList;
     SimpleAdapter adapter;
     DBHelper dbHelper;
+    SQLiteDatabase db;
 
 
     @Override
@@ -63,12 +67,13 @@ public class mainActivity extends Activity implements OnClickListener {
         allCashUpdate();
         dbHelper = new DBHelper(this);
 
+        dbQueryTask mt = new dbQueryTask(dbQueryTask.DB_READ);
+        mt.execute();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
 
     }
 
@@ -139,10 +144,12 @@ public class mainActivity extends Activity implements OnClickListener {
                 break;
             case R.id.mClear:
                 clearList();
-                dbHelper.deletDB(this);
+                db = dbHelper.getWritableDatabase();
+                db.delete(DBHelper.TABLE_NAME, "", null);
+                db.close();
                 break;
             case R.id.mUpdate:
-
+                dbHelper.deletDB(this);
                 break;
             case R.id.mSendImg:
                 sendByViber(list);
@@ -157,13 +164,16 @@ public class mainActivity extends Activity implements OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_add:
+                db = dbHelper.getWritableDatabase();
                 ContentValues cv = new ContentValues();
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
+
                 cv.put("name", "Творожок");
+                cv.put("date", "04.08.2016");
                 cv.put("count", 4);
                 cv.put("coast", 0.69);
                 cv.put("cash", 2.76);
                 long rowID = db.insert("debts", null, cv);
+                db.close();
                 text.setText(String.valueOf(rowID));
                 break;
 
@@ -186,7 +196,15 @@ public class mainActivity extends Activity implements OnClickListener {
                         m.put("Cash", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Cash", 0)));
                         dataList.add(m);
 
-                        text.setText(String.valueOf(m.hashCode()));
+                        db = dbHelper.getWritableDatabase();
+                        ContentValues cv = new ContentValues();
+                        cv.put("name", data.getStringExtra("Name"));
+                        cv.put("date", data.getStringExtra("Date"));
+                        cv.put("count", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Count", 0)));
+                        cv.put("coast", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Coast", 0)));
+                        cv.put("cash", String.format(Locale.ENGLISH, "%.2f", data.getDoubleExtra("Cash", 0)));
+                        db.insert("debts", null, cv);
+                        db.close();
                         allCashUpdate();
                         break;
 
@@ -273,4 +291,73 @@ public class mainActivity extends Activity implements OnClickListener {
         startActivity(intent);
     }
 
+    class dbQueryTask extends AsyncTask<Void, Void, Void> {
+        int action;
+        public final static int DB_READ = 1;
+
+        public dbQueryTask(int action) {
+
+            super();
+            this.action = action;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            switch (action)
+            {
+                case DB_READ: readDB();break;
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            allCashUpdate();
+
+        }
+
+        void readDB() {
+            db = dbHelper.getWritableDatabase();
+            Cursor c = db.query(dbHelper.getTableName(), null, null, null, null, null, null);
+
+            if (c.moveToFirst()) {
+
+                int nameColIndex = c.getColumnIndex("name");
+                int dateColIndex = c.getColumnIndex("date");
+                int countColIndex = c.getColumnIndex("count");
+                int coastColIndex = c.getColumnIndex("coast");
+                int cashColIndex = c.getColumnIndex("cash");
+
+
+                do {
+                    // получаем значения по номерам столбцов и пишем все в лог
+                    Map<String, Object> m = new HashMap<String, Object>();
+                    m.put("Name", c.getString(nameColIndex));
+                    m.put("Date", c.getString(dateColIndex));
+                    m.put("Count", String.format(Locale.ENGLISH, "%.2f", c.getDouble(countColIndex)));
+                    m.put("Coast", String.format(Locale.ENGLISH, "%.2f", c.getDouble(coastColIndex)));
+                    m.put("Cash", String.format(Locale.ENGLISH, "%.2f", c.getDouble(cashColIndex)));
+                    dataList.add(m);
+
+                 /*   try {
+                        TimeUnit.MILLISECONDS.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }*/
+
+                } while (c.moveToNext());
+
+            } else
+                Log.d(TAG, "0 rows");
+            c.close();
+        }
+    }
 }
