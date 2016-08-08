@@ -2,7 +2,7 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" android:background="@color/backColorMain"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
     <LinearLayout
@@ -14,7 +14,7 @@
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
-                android:layout_weight="0" android:background="@color/backColor" android:padding="10dp">
+                android:layout_weight="0" android:background="@color/backColor" android:padding="5dp">
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -23,34 +23,43 @@
                     android:id="@+id/textView5" android:layout_alignParentTop="false"
                     android:layout_alignParentLeft="false"
                     android:textStyle="bold"
-                    style="@style/textStyleLarge" android:paddingBottom="5dp" android:layout_marginLeft="35dp"
+                    style="@style/textStyleLarge" android:layout_marginLeft="35dp"
                     android:layout_centerVertical="true"/>
-                <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="+"
-                        android:id="@+id/bt_add"
-                        android:textStyle="bold"
-                        android:focusable="true" android:background="@color/backColor"
-                        android:textColor="@color/textColor"
-                        android:textSize="25dp" android:paddingLeft="40dp" android:paddingRight="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        android:paddingTop="1dp" android:paddingBottom="3dp"/>
-                <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:id="@+id/imageView"
-                        android:src="@drawable/icmd" android:scaleType="fitCenter"
-                        android:layout_centerVertical="true" android:layout_alignParentLeft="true"/>
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:id="@+id/bt_add_file"
+                    android:textStyle="bold"
+                    android:focusable="true" android:background="@color/backColor"
+                    android:textColor="@color/textColor"
+                    android:textSize="30dp" android:paddingLeft="40dp" android:paddingRight="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:paddingBottom="5dp"/>
+            <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/imageView"
+                    android:src="@drawable/ic" android:scaleType="fitCenter"
+                    android:layout_centerVertical="true" android:layout_alignParentLeft="true"/>
         </RelativeLayout>
     </LinearLayout>
-    <ListView
+
+    <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/list"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" android:layout_gravity="top|center_horizontal" android:layout_weight="1"/>
+            android:layout_height="fill_parent"
+            android:id="@+id/scrollView" android:layout_weight="1" android:background="#ff565656">
+
+
+        <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"  android:background="@android:color/transparent"
+                android:id="@+id/main_desc" android:baselineAligned="false" android:padding="10dp"
+                >
+
+        </TableLayout>
+    </ScrollView>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
@@ -68,38 +77,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Итого:"
-                    android:id="@+id/txSum"
-                    style="@style/textStyleLarge" android:textStyle="bold"
+                    android:text="Файлы"
+                    android:id="@+id/tx_main"
+                    style="@style/textStyle"
                     android:layout_gravity="center_vertical"
                     android:layout_alignParentLeft="true" android:layout_marginLeft="20dp"
                     android:layout_alignParentTop="false" android:layout_marginTop="10dp"
                     android:layout_centerVertical="true"/>
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/txResult"
-                    android:text="456" style="@style/textStyleLarge" android:textStyle="bold"
-                    android:layout_gravity="center_vertical|right" android:shadowColor="@android:color/black"
-                    android:layout_alignParentLeft="false"
-                    android:layout_alignParentTop="false"
-                    android:layout_toRightOf="@+id/txSum" android:layout_marginLeft="35dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_alignParentBottom="false" android:layout_centerVertical="true"/>
-                <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="..."
-                        android:id="@+id/bt_option"
-                        android:textStyle="bold"
-                        android:focusable="true" android:background="@color/backColor"
-                        android:layout_alignParentRight="true" android:textColor="@color/textColor"
-                        android:textSize="25dp" android:paddingLeft="40dp"
-                        android:paddingRight="15dp" android:layout_alignParentLeft="false"
-                        android:layout_alignParentTop="false"
-                        />"
+                "
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

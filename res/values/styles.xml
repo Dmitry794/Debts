@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="backColor">#ffe9e9e9</color>
+    <color name="backColorMain">#ff1b9393</color>
+    <color name="backColorMainR">#ffd25033</color>
+    <color name="textColor">#ff1b9393</color>
+    <color name="textColorR">#ff9f2306</color>
+
     <style name="textStyle">
-        <item name="android:textColor">#ff005b9f</item>
+        <item name="android:textColor">#ff1b9393</item>
+    </style>
+    <style name="textStyleR">
+        <item name="android:textColor">#ff9f2306</item>
     </style>
 
     <style name="textStyleLarge">
-        <item name="android:textColor">#ff005b9f</item>
+        <item name="android:textColor">#ff1b9393</item>
+        <item name="android:textSize">30dp</item>
+    </style>
+    <style name="textStyleLargeR">
+        <item name="android:textColor">#ff9f2306</item>
         <item name="android:textSize">25dp</item>
     </style>
 
 
-    <color name="backColor">#ffe9e9e9</color>
-    <color name="backColorMain">#ff939393</color>
-    <color name="textColor">#ff005b9f</color>
+
 
 </resources>

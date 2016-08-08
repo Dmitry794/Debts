@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+              android:background="@color/backColor">
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp" android:background="@color/backColorMain" android:gravity="center_vertical"
+            android:layout_weight="1" android:id="@+id/rLayout">
+    <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/list1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" android:layout_gravity="top|center_horizontal"
+            android:layout_alignParentTop="true" android:layout_centerHorizontal="true" android:visibility="visible"/>
+        <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/list2"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" android:layout_gravity="top|center_horizontal"
+                android:visibility="gone" android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:background="@color/backColor" android:gravity="center_vertical">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Сумма: "
+                android:id="@+id/p_sum" android:layout_marginLeft="20dp" android:textSize="25dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/tx_res" android:layout_marginLeft="15dp" android:textSize="25dp"/>
+    </LinearLayout>
+</LinearLayout>

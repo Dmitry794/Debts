@@ -41,21 +41,24 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:id="@+id/imageView"
-                        android:src="@drawable/icmd" android:scaleType="fitCenter"
+                        android:src="@drawable/ic" android:scaleType="fitCenter"
                         android:layout_centerVertical="true" android:layout_alignParentLeft="true"/>
         </RelativeLayout>
     </LinearLayout>
-    <android.support.v4.view.ViewPager android:layout_width="fill_parent" android:layout_height="wrap_content"
-                                       android:layout_weight="1" android:background="#ff1b9393"
-                                       android:id="@+id/pager"></android.support.v4.view.ViewPager>
-    <ListView
+    <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/list"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" android:layout_gravity="top|center_horizontal" android:layout_weight="1"
-            android:visibility="gone"/>
-        <LinearLayout
+            android:layout_height="fill_parent" android:layout_weight="1">
+        <android.support.v4.view.ViewPager android:layout_width="fill_parent" android:layout_height="wrap_content"
+                                           android:background="#ff1b9393"
+                                           android:id="@+id/pager" android:layout_alignParentTop="true"
+                                           android:layout_alignParentLeft="true"></android.support.v4.view.ViewPager>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/loader" android:layout_centerInParent="true" android:text="Загрузка..."/>
+    </RelativeLayout>
+    <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

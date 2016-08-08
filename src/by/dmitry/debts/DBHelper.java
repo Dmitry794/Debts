@@ -28,7 +28,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "date text,"
                 + "count double,"
                 + "coast double,"
-                + "cash double"
+                + "cash double, "
+                + "person int"
 
                 + ");");
 
@@ -41,11 +42,26 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void deletDB(Context context) {
         context.deleteDatabase(DB_NAME);
-        Log.d("myLogs", "DB deleted");
+
+        Log.d("myLogs", "DB "+DB_NAME+" deleted");
     }
 
     String getDbName() {
         return DB_NAME;
+    }
+
+    void addTable(SQLiteDatabase sqlDB,String name){
+        sqlDB.execSQL("create table "+name+" ("
+                + "id integer primary key autoincrement,"
+                + "hash integer,"
+                + "name text,"
+                + "date text,"
+                + "count double,"
+                + "coast double,"
+                + "cash double, "
+                + "person int"
+
+                + ");");
     }
 
     public static String getTableName() {

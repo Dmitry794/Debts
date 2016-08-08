@@ -7,18 +7,24 @@
               android:background="@color/backColorMain"
               android:baselineAligned="false">
     <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:layout_gravity="center_horizontal"
-            android:background="@color/backColor" android:padding="15dp">
+            android:layout_height="fill_parent">
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Изменить покупку"
+                android:text="Редактировать"
                 android:id="@+id/textView" android:layout_gravity="left|center_horizontal"
-                android:paddingBottom="6dp" android:paddingLeft="10dp"
-                android:paddingRight="10dp" style="@style/textStyleLarge" android:textStyle="bold"/>
+                android:paddingBottom="6dp"
+                android:paddingRight="110dp" android:textStyle="bold"
+                android:paddingLeft="10dp" android:textSize="20dp"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:layout_gravity="center_horizontal"
+            android:background="@color/backColor" android:padding="15dp">
 
 
         <TextView
@@ -31,7 +37,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/txedName" android:textStyle="bold"
-                android:textColor="@color/textColor"/>
+                android:textColor="@color/textColor"
+                android:maxLength="20" android:singleLine="true"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,7 +75,7 @@
             <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Изменить"
+                    android:text="ОК"
                     android:id="@+id/bt_edit"
                     android:textStyle="bold"
                     android:layout_weight="1" android:background="@color/backColor"
